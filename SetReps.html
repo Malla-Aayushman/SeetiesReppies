@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SetReps — Gym Progress Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">SET<span>REPS</span></div>
+        <div class="user-box" id="user-box">
+          <div class="user-chip" id="user-chip" title="Account">
+            <span class="user-avatar" id="user-avatar">?</span>
+            <span class="user-name" id="user-name">—</span>
+            <span class="user-caret">▾</span>
+          </div>
+          <div class="user-menu hidden" id="user-menu">
+            <div class="user-menu-item" id="menu-edit">✏ Edit profile</div>
+            <div class="user-menu-item user-menu-item-danger" id="menu-logout">
+              ↪ Log out
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" data-view="dashboard">Home</div>
+        <div class="tab" data-view="group" style="display: none" id="tab-group">
+          Group
+        </div>
+        <div class="tab" data-view="log">Log</div>
+        <div class="tab" data-view="progress">Progress</div>
+        <div class="tab" data-view="insights">Insights</div>
+        <div class="tab" data-view="profile">Profile</div>
+      </div>
+    </div>
+
+    <div class="app">
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="view active" id="view-dashboard">
+        <div class="dash-header">
+          <p class="dash-date" id="dash-date"></p>
+          <p class="dash-streak">
+            Streak: <span class="num" id="dash-streak-num">0</span> days
+          </p>
+        </div>
+        <div class="quickstats">
+          <div class="qstat">
+            <div class="q-label">Total sessions</div>
+            <div class="q-val" id="dash-total">0</div>
+          </div>
+          <div class="qstat">
+            <div class="q-label">This week</div>
+            <div class="q-val" id="dash-week">0</div>
+          </div>
+          <div class="qstat">
+            <div class="q-label">Latest PR</div>
+            <div class="q-val" id="dash-pr" style="font-size: 12px">—</div>
+          </div>
+        </div>
+        <div class="card-title">Choose a muscle group</div>
+        <div class="muscle-grid" id="muscle-grid"></div>
+      </div>
+
+      <!-- ═══ GROUP DETAIL ═══ -->
+      <div class="view" id="view-group">
+        <div class="back-link" id="group-back">← back to home</div>
+        <div class="group-header">
+          <div id="gh-icon"></div>
+          <h2 id="gh-name">Chest</h2>
+        </div>
+        <div id="group-ex-list"></div>
+        <!-- add button row -->
+        <div
+          style="display: flex; align-items: center; gap: 10px; margin-top: 4px"
+        >
+          <button class="add-ex-toggle" id="add-ex-toggle" title="Add exercise">
+            +
+          </button>
+          <span style="font-size: 13px; color: var(--steel)" id="add-ex-hint"
+            >Add an exercise to this group</span
+          >
+        </div>
+        <div id="add-ex-panel" style="display: none" class="add-ex-panel">
+          <div class="panel-title">Pick a suggestion or name your own</div>
+          <div class="suggestion-grid" id="suggestion-grid"></div>
+          <div class="add-ex-custom">
+            <input
+              type="text"
+              id="group-custom-name"
+              placeholder="Or type your own exercise name…"
+              style="flex: 1"
+            />
+            <button
+              class="btn"
+              id="group-custom-add"
+              style="flex: none; padding: 10px 14px"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ LOG ═══ -->
+      <div class="view" id="view-log">
+        <div class="card">
+          <div class="card-title">Session</div>
+          <div class="field-row">
+            <div class="field" style="flex: 2">
+              <label>Exercise</label>
+              <select id="log-exercise"></select>
+            </div>
+            <div class="field" style="flex: 1">
+              <label>Date</label>
+              <input type="date" id="log-date" />
+            </div>
+          </div>
+          <!-- previous workout banner -->
+          <div id="prev-banner" style="display: none" class="prev-banner">
+            <div class="pb-title">Last workout</div>
+            <div class="pb-sets" id="prev-banner-sets"></div>
+          </div>
+          <div class="set-header-row">
+            <span class="sh-label"></span><span class="sh-col">Weight</span
+            ><span class="sh-col">Reps</span><span class="sh-rm"></span>
+          </div>
+          <div id="set-rows"></div>
+          <button class="btn-ghost" id="add-set-btn" style="margin-top: 4px">
+            + Add set
+          </button>
+          <div class="btn-row">
+            <button class="btn" id="save-session-btn">Save session</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" id="history-title">History</div>
+          <div id="history-list"></div>
+        </div>
+      </div>
+
+      <!-- ═══ PROGRESS ═══ -->
+      <div class="view" id="view-progress">
+        <div class="card">
+          <div class="ex-select-row" style="margin-bottom: 14px">
+            <select id="progress-exercise"></select>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="s-label">First logged</div>
+              <div class="s-val" id="st-first">—</div>
+              <div class="s-sub" id="st-first-date">—</div>
+            </div>
+            <div class="stat-box">
+              <div class="s-label">Best est. 1RM</div>
+              <div class="s-val up" id="st-best">—</div>
+              <div class="s-sub" id="st-best-date">—</div>
+            </div>
+            <div class="stat-box">
+              <div class="s-label">Improvement</div>
+              <div class="s-val" id="st-delta">—</div>
+              <div class="s-sub" id="st-delta-pct">—</div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <svg
+              id="progress-chart"
+              viewBox="0 0 680 200"
+              preserveAspectRatio="xMidYMid meet"
+            ></svg>
+          </div>
+          <div class="note">
+            Chart plots estimated 1RM (Epley: weight × (1 + reps/30)) per
+            session.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Compare two dates</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Earlier</label
+              ><select id="cmp-a"></select>
+            </div>
+            <div class="field">
+              <label>Later</label
+              ><select id="cmp-b"></select>
+            </div>
+          </div>
+          <div id="cmp-result"></div>
+        </div>
+      </div>
+
+      <!-- ═══ INSIGHTS ═══ -->
+      <div class="view" id="view-insights">
+        <!-- muscle group progress chart -->
+        <div class="mg-graph-card">
+          <div class="mg-graph-header">
+            <span class="mg-graph-title">Muscle group progress</span>
+            <div class="mg-toggle-row">
+              <button class="mg-toggle active" data-range="week">Week</button>
+              <button class="mg-toggle" data-range="month">Month</button>
+              <button class="mg-toggle" data-range="all">All time</button>
+            </div>
+          </div>
+          <div class="mg-group-row" id="mg-group-btns"></div>
+          <div class="chart-wrap" style="margin-bottom: 0">
+            <svg
+              id="mg-chart"
+              viewBox="0 0 680 180"
+              preserveAspectRatio="xMidYMid meet"
+            ></svg>
+          </div>
+        </div>
+        <!-- auto-insights -->
+        <div class="card-title" style="margin-bottom: 10px">Auto-analysis</div>
+        <div id="insights-list"></div>
+      </div>
+
+      <!-- ═══ PROFILE ═══ -->
+      <div class="view" id="view-profile">
+        <div class="card">
+          <div class="card-title">Your stats</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Bodyweight</label
+              ><input type="number" id="p-weight" placeholder="70" step=".1" />
+            </div>
+            <div class="field">
+              <label>Units</label
+              ><select id="p-units">
+                <option value="kg">kg / cm</option>
+                <option value="lb">lb / in</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Height</label
+              ><input type="number" id="p-height" placeholder="175" step=".1" />
+            </div>
+            <div class="field">
+              <label>Age</label
+              ><input type="number" id="p-age" placeholder="25" step="1" />
+            </div>
+            <div class="field">
+              <label>Sex</label
+              ><select id="p-sex">
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn" id="save-profile-btn">Save profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /app -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ═══ EDIT PROFILE MODAL ═══ -->
+    <div class="modal-overlay hidden" id="edit-modal">
+      <div class="modal-box">
+        <div class="modal-title">Edit profile</div>
+        <div class="modal-body" style="margin-bottom: 0">
+          <label class="m-wrap">
+            <span class="m-label">New name</span>
+            <input type="text" id="edit-name" class="m-field" />
+          </label>
+          <label class="m-wrap">
+            <span class="m-label">New password</span>
+            <input
+              type="password"
+              id="edit-pass"
+              class="m-field"
+              placeholder="Leave blank to keep current"
+            />
+          </label>
+          <div class="m-error" id="edit-error"></div>
+        </div>
+        <div class="modal-btns">
+          <button class="btn-ghost" id="edit-cancel">Cancel</button>
+          <button class="btn" id="edit-save">Save changes</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
