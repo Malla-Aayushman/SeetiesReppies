@@ -41,12 +41,12 @@ if (current_user_id() !== null) {
           <label class="auth-label" for="re_password">Password</label>
           <input class="auth-input" type="password" id="re_password" autocomplete="new-password" placeholder="At least 4 characters" required />
 
+          <!--  in auth-error the error message is shown after validations -->
           <div class="auth-error" id="auth-error"></div>
+
           <button class="auth-btn" type="submit">Create account</button>
 
-          // prints response of js validation if any
-          <p id="register_notice"> </p>
-
+        
         </form>
 
         <p class="auth-alt">Already registered? <a class="auth-link" href="login.php">Log in</a></p>
