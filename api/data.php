@@ -98,3 +98,5 @@ foreach ($sessions as $s) {
 }
 
 json_out(['ok' => true]);
+
+

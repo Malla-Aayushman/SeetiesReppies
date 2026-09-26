@@ -28,17 +28,28 @@ if (current_user_id() !== null) {
       <div class="auth-brand">SET<span>REPS</span></div>
       <div class="auth-card">
         <h1 class="auth-title">Create account</h1>
+
+        <!--  Form  -->
+          <!--  using this from we will validate the user input  -->
         <form id="auth-form" novalidate>
           <label class="auth-label" for="username">Username</label>
           <input class="auth-input" type="text" id="username" autocomplete="username" placeholder="3–60 characters" required />
+
           <label class="auth-label" for="password">Password</label>
           <input class="auth-input" type="password" id="password" autocomplete="new-password" placeholder="At least 4 characters" required />
+
           <div class="auth-error" id="auth-error"></div>
           <button class="auth-btn" type="submit">Create account</button>
+
         </form>
+
         <p class="auth-alt">Already registered? <a class="auth-link" href="login.php">Log in</a></p>
       </div>
     </div>
+
+
     <script src="auth.js" data-mode="register"></script>
+
+     
   </body>
 </html>
