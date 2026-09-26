@@ -38,8 +38,14 @@ if (current_user_id() !== null) {
           <label class="auth-label" for="password">Password</label>
           <input class="auth-input" type="password" id="password" autocomplete="new-password" placeholder="At least 4 characters" required />
 
+          <label class="auth-label" for="re_password">Password</label>
+          <input class="auth-input" type="password" id="re_password" autocomplete="new-password" placeholder="At least 4 characters" required />
+
           <div class="auth-error" id="auth-error"></div>
           <button class="auth-btn" type="submit">Create account</button>
+
+          // prints response of js validation if any
+          <p id="register_notice"> </p>
 
         </form>
 

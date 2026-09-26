@@ -12,8 +12,12 @@
     e.preventDefault();
     errEl.textContent = '';
 
+    // assigning username and password
     var username = document.getElementById('username').value.trim();
     var password = document.getElementById('password').value;
+
+    
+    // error handeling
     if (!username || !password) {
       errEl.textContent = 'Fill in both fields.';
       return;
@@ -39,6 +43,7 @@
       errEl.textContent = 'Cannot reach the server. Is Apache + MySQL running in XAMPP?';
       btn.disabled = false;
       btn.textContent = idleLabel;
+
     }
   });
 })();
