@@ -47,10 +47,11 @@ if (current_user_id() !== null) {
           <label class="auth-label" for="password">Password</label>
           <input class="auth-input" type="password" id="password" autocomplete="current-password" required />
           
-          // create a forgot password button 
-          // need to make a forogot password pagr 
+           <!-- create a forgot password button 
+           need to make a forogot password pagr  -->
           <div class="auth-link" style="display: flex; justify-content: flex-end;" >
           <div style="font-size: 12px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);"   >Forgot Password?</div></div>
+          
           <div class="auth-error" id="auth-error"></div>
           
           <button class="auth-btn" type="submit">Log in</button>
